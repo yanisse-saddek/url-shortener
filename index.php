@@ -1,3 +1,17 @@
+<?php
+
+if(isset($_GET['id'])){
+        include('bd.php');
+        $id = $_GET['id'];
+        $sql = "SELECT * FROM links WHERE newLink = '$id'";
+        $result = $conn->query($sql);
+
+        while ($row = $result->fetch_assoc()) {
+            echo $row['longLink'];
+            header('Location: '.$row['longLink']);
+        }  
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,10 +26,10 @@
     <div class="container">
         <h1>URL Shortener</h1>
         <div class="d-flex flex-column align-middle">
-            <form>
+            <form method="post" action="link.php">
                 <div class="form-group">
                     <label for="exampleInputEmail1">Lien à raccourcir</label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="https://google.fr">
+                    <input name="link" type="text" class="form-control" placeholder="https://google.fr">
                 </div>
                 <button type="submit" class="btn btn-primary">Raccourcir</button>
             </form>          
