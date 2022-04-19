@@ -13,7 +13,6 @@ include('bd.php');
         while ($row = $result->fetch_assoc()) {
             $newLink = "localhost/url-short?id=".$row['newLink'];
         }
-
     }else{
         header('Location: index.php');
     }
@@ -45,13 +44,25 @@ include('bd.php');
         <h1>URL Shortener</h1>
         <div class="row">
             <div class="col">
-                <input name="link" type="text" class="form-control" value="<?=$newLink?>" readonly>
+                <input name="link" id="link" type="text" class="form-control" value="<?=$newLink?>" readonly>
             </div>
             <div class="col">
-                <button type="button" class="btn btn-success">Copier</button>
-                <button type="button" class="btn btn-primary">Acceder</button>
+                <button onClick="copy('link')" type="button" class="btn btn-success">Copier</button>
+                <a href="http://<?=$newLink?>"><button type="button" class="btn btn-primary">Acceder</button></a>
             </div>
         </div>
     </div>
 </body>
 </html>
+
+<script>
+    function copy(id)
+    {
+    var r = document.createRange();
+    r.selectNode(document.getElementById(id));
+    window.getSelection().removeAllRanges();
+    window.getSelection().addRange(r);
+    document.execCommand('copy');
+    window.getSelection().removeAllRanges();
+    }
+</script>
