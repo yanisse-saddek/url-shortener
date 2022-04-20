@@ -5,18 +5,16 @@ $ip =  $_SERVER['REMOTE_ADDR'];
     if(isset($_GET['id'])){
         $id = $_GET['id'];
         $sql = "SELECT * FROM links WHERE newLink = '$id'";
-        echo $sql;
         $result = $conn->query($sql);
 
         while ($row = $result->fetch_assoc()) {
-            echo $row['longLink'];
             header('Location: '.$row['longLink']);
         }  
     }
 
     if(isset($_POST['link'])){
-        $n = 10;
-        $link = "http://".$_POST['link'];
+        $n = 6;
+        $link = $_POST['link'];
         $randId = getRandomString($n);
         $sql = "INSERT INTO links (longLink, newLink, ip) VALUES ('$link', '$randId', '$ip')";
         $conn->query($sql);
@@ -28,10 +26,12 @@ $ip =  $_SERVER['REMOTE_ADDR'];
             $newLink =$row['newLink'];
         }
     }
+
+
+
     function getRandomString($n) {
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $randomString = '';
-      
         for ($i = 0; $i < $n; $i++) {
             $index = rand(0, strlen($characters) - 1);
             $randomString .= $characters[$index];
@@ -64,15 +64,14 @@ $ip =  $_SERVER['REMOTE_ADDR'];
 
         <?php
             if(isset($_POST['link'])){
-                echo $newLink;
                 echo '
                 <div class="row mt-5">
                     <div class="col-md-9">
-                        <input name="link" id="link" type="text" class="form-control" value="localhost/url-short?id='.$newLink.'" readonly>
+                        <input name="link" id="link" type="text" class="form-control" value=http://localhost/url-short?id='.$newLink.' readonly>
                     </div>
                     <div class="col">
-                        <button onClick="copy("link")" type="button" class="btn btn-success">Copier</button>
-                        <a target="_blank"  href="http://localhost/url-short?id='.$newLink.'"><button type="button" class="btn btn-primary">Acceder</button></a>
+                        <button onClick="copy(`link`)"x type="button" class="btn btn-success">Copier</button>
+                        <a target="_blank"  href=http://localhost/url-short?id='.$newLink.'><button type="button" class="btn btn-primary">Acceder</button></a>
                     </div>
                 </div>    
                 ';
@@ -85,7 +84,13 @@ $ip =  $_SERVER['REMOTE_ADDR'];
             if ($result->num_rows > 0) {
                 echo "<h2>Historique</h2>";
                 while ($row = $result->fetch_assoc()) {
-                    echo '<li class="list-group-item">localhost/url-short?id='.$row['newLink'].'</li>';
+                    echo '
+                        <div class="col-12 d-flex">
+                            <li class="list-group-item">localhost/url-short?id='.$row['newLink'].'                             
+                            <button type="button" class="btn btn-danger align-self-end">Danger</button>
+                            </li>    
+                        </div>
+                    ';
                 }    
               } 
         ?>
@@ -97,8 +102,9 @@ $ip =  $_SERVER['REMOTE_ADDR'];
 <script>
     function copy(id)
     {
+        console.log(id)
     var r = document.createRange();
-    r.selectNode(document.getElementById(id));
+    r.selectNode(id);
     window.getSelection().removeAllRanges();
     window.getSelection().addRange(r);
     document.execCommand('copy');
