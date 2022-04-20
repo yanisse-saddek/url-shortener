@@ -11,6 +11,7 @@ if(isset($_GET['id'])){
             header('Location: '.$row['longLink']);
         }  
     }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

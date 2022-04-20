@@ -42,13 +42,16 @@ include('bd.php');
 <body>
     <div class="container">
         <h1>URL Shortener</h1>
-        <div class="row">
-            <div class="col">
+        <div class="row mt-3">
+            <a href="index.php"><button type="button" class="btn btn-dark">Retourner en arrière</button></a>
+        </div>
+        <div class="row mt-5">
+            <div class="col-md-9">
                 <input name="link" id="link" type="text" class="form-control" value="<?=$newLink?>" readonly>
             </div>
             <div class="col">
                 <button onClick="copy('link')" type="button" class="btn btn-success">Copier</button>
-                <a href="http://<?=$newLink?>"><button type="button" class="btn btn-primary">Acceder</button></a>
+                <a target='_blank'  href="http://<?=$newLink?>"><button type="button" class="btn btn-primary">Acceder</button></a>
             </div>
         </div>
     </div>
