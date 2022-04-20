@@ -40,6 +40,7 @@
         include('bd.php');
         $sql = "DELETE from links WHERE id = '$id' ";
         $conn->query($sql);
+        header('Location: index.php');
     }
 
 
@@ -109,8 +110,9 @@
                     echo "<h2>Historique</h2>";
                     while ($row = $result->fetch_assoc()) {
                         echo '
-                            <div class=" d-flex">
-                                <li class="list-group-item w-100">localhost/url-short?id='.$row['newLink'].'                             
+                            <div class=" d-flex justify-content-center align-items-center">
+                                <li class="list-group-item w-100 ">localhost/url-short?id='.$row['newLink'].'                             
+                                <div class="small">'.$row['longLink'].'</div>
                                 </li>    
                                 <a href= "?delete='.$row['id'].'" /><button type="button" class="btn btn-danger ">X</button></a>
                             </div>
