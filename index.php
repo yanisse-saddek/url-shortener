@@ -1,9 +1,11 @@
 <?php
 
-if(isset($_GET['id'])){
-        include('bd.php');
+include('bd.php');
+$ip =  $_SERVER['REMOTE_ADDR'];
+    if(isset($_GET['id'])){
         $id = $_GET['id'];
         $sql = "SELECT * FROM links WHERE newLink = '$id'";
+        echo $sql;
         $result = $conn->query($sql);
 
         while ($row = $result->fetch_assoc()) {
@@ -12,6 +14,30 @@ if(isset($_GET['id'])){
         }  
     }
 
+    if(isset($_POST['link'])){
+        $n = 10;
+        $link = "http://".$_POST['link'];
+        $randId = getRandomString($n);
+        $sql = "INSERT INTO links (longLink, newLink, ip) VALUES ('$link', '$randId', '$ip')";
+        $conn->query($sql);
+
+        $newLink = "";
+        $sql = "SELECT * from links WHERE newLink = '$randId'";
+        $result = $conn->query($sql);
+        while ($row = $result->fetch_assoc()) {
+            $newLink =$row['newLink'];
+        }
+    }
+    function getRandomString($n) {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $randomString = '';
+      
+        for ($i = 0; $i < $n; $i++) {
+            $index = rand(0, strlen($characters) - 1);
+            $randomString .= $characters[$index];
+        }
+        return $randomString;
+        }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -27,7 +53,7 @@ if(isset($_GET['id'])){
     <div class="container">
         <h1>URL Shortener</h1>
         <div class="d-flex flex-column align-middle">
-            <form method="post" action="link.php">
+            <form method="post" action="#">
                 <div class="form-group">
                     <label for="exampleInputEmail1">Lien à raccourcir</label>
                     <input name="link" type="text" class="form-control" placeholder="https://google.fr">
@@ -35,6 +61,47 @@ if(isset($_GET['id'])){
                 <button type="submit" class="btn btn-primary">Raccourcir</button>
             </form>          
         </div>
+
+        <?php
+            if(isset($_POST['link'])){
+                echo $newLink;
+                echo '
+                <div class="row mt-5">
+                    <div class="col-md-9">
+                        <input name="link" id="link" type="text" class="form-control" value="localhost/url-short?id='.$newLink.'" readonly>
+                    </div>
+                    <div class="col">
+                        <button onClick="copy("link")" type="button" class="btn btn-success">Copier</button>
+                        <a target="_blank"  href="http://localhost/url-short?id='.$newLink.'"><button type="button" class="btn btn-primary">Acceder</button></a>
+                    </div>
+                </div>    
+                ';
+            }
+        ?>
+
+        <?php 
+            $sql = "SELECT * FROM links WHERE ip = '$ip'";
+            $result = $conn->query($sql);
+            if ($result->num_rows > 0) {
+                echo "<h2>Historique</h2>";
+                while ($row = $result->fetch_assoc()) {
+                    echo '<li class="list-group-item">localhost/url-short?id='.$row['newLink'].'</li>';
+                }    
+              } 
+        ?>
     </div>
 </body>
 </html>
+
+
+<script>
+    function copy(id)
+    {
+    var r = document.createRange();
+    r.selectNode(document.getElementById(id));
+    window.getSelection().removeAllRanges();
+    window.getSelection().addRange(r);
+    document.execCommand('copy');
+    window.getSelection().removeAllRanges();
+    }
+</script>
