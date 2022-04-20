@@ -1,18 +1,23 @@
 <?php
 
-include('bd.php');
-$ip =  $_SERVER['REMOTE_ADDR'];
+    include('bd.php');
+    $ip =  $_SERVER['REMOTE_ADDR'];
+    $errorMsg = false;
     if(isset($_GET['id'])){
         $id = $_GET['id'];
         $sql = "SELECT * FROM links WHERE newLink = '$id'";
         $result = $conn->query($sql);
 
-        while ($row = $result->fetch_assoc()) {
-            header('Location: '.$row['longLink']);
-        }  
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                header('Location: '.$row['longLink']);
+            }
+        }else{
+            $errorMsg = true;
+        }
     }
-
     if(isset($_POST['link'])){
+        $errorMsg = false;
         $n = 6;
         $link = $_POST['link'];
         $randId = getRandomString($n);
@@ -22,11 +27,20 @@ $ip =  $_SERVER['REMOTE_ADDR'];
         $newLink = "";
         $sql = "SELECT * from links WHERE newLink = '$randId'";
         $result = $conn->query($sql);
-        while ($row = $result->fetch_assoc()) {
-            $newLink =$row['newLink'];
-        }
+            while ($row = $result->fetch_assoc()) {
+                $newLink =$row['newLink'];
+            }
+        
     }
 
+    if(isset($_GET['delete'])){
+        delete($_GET['delete']);
+    }
+    function delete($id){
+        include('bd.php');
+        $sql = "DELETE from links WHERE id = '$id' ";
+        $conn->query($sql);
+    }
 
 
     function getRandomString($n) {
@@ -52,48 +66,60 @@ $ip =  $_SERVER['REMOTE_ADDR'];
 <body>
     <div class="container">
         <h1>URL Shortener</h1>
-        <div class="d-flex flex-column align-middle">
-            <form method="post" action="#">
-                <div class="form-group">
-                    <label for="exampleInputEmail1">Lien à raccourcir</label>
-                    <input name="link" type="text" class="form-control" placeholder="https://google.fr">
-                </div>
-                <button type="submit" class="btn btn-primary">Raccourcir</button>
-            </form>          
-        </div>
 
         <?php
-            if(isset($_POST['link'])){
-                echo '
-                <div class="row mt-5">
-                    <div class="col-md-9">
-                        <input name="link" id="link" type="text" class="form-control" value=http://localhost/url-short?id='.$newLink.' readonly>
-                    </div>
-                    <div class="col">
-                        <button onClick="copy(`link`)"x type="button" class="btn btn-success">Copier</button>
-                        <a target="_blank"  href=http://localhost/url-short?id='.$newLink.'><button type="button" class="btn btn-primary">Acceder</button></a>
-                    </div>
-                </div>    
-                ';
+            if($errorMsg){
+                echo "
+                <div class='alert alert-danger'  role='alert'>
+                    Ce lien est incorrect ou a été supprimé
+                </div>              
+                ";
             }
         ?>
-
-        <?php 
-            $sql = "SELECT * FROM links WHERE ip = '$ip'";
-            $result = $conn->query($sql);
-            if ($result->num_rows > 0) {
-                echo "<h2>Historique</h2>";
-                while ($row = $result->fetch_assoc()) {
+        <div class="row">
+            <div class="d-flex col-9 flex-column align-middle">
+                <form method="post" action="#">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Lien à raccourcir</label>
+                        <input name="link" type="text" class="form-control" placeholder="https://google.fr">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Raccourcir</button>
+                </form>    
+                <?php
+                if(isset($_POST['link'])){
                     echo '
-                        <div class="col-12 d-flex">
-                            <li class="list-group-item">localhost/url-short?id='.$row['newLink'].'                             
-                            <button type="button" class="btn btn-danger align-self-end">Danger</button>
-                            </li>    
+                    <div class="row mt-5">
+                        <div class="col-md-9">
+                            <input name="link" id="link" type="text" class="form-control" value=http://localhost/url-short?id='.$newLink.' readonly>
                         </div>
+                        <div class="col">
+                            <button onClick="copy(`link`)"x type="button" class="btn btn-success">Copier</button>
+                            <a target="_blank"  href=http://localhost/url-short?id='.$newLink.'><button type="button" class="btn btn-primary">Acceder</button></a>
+                        </div>
+                    </div>    
                     ';
-                }    
-              } 
-        ?>
+                }
+                ?>      
+            </div>
+            <div class="col-3">
+            <?php 
+                $sql = "SELECT * FROM links WHERE ip = '$ip'";
+                $result = $conn->query($sql);
+                if ($result->num_rows > 0) {
+                    echo "<h2>Historique</h2>";
+                    while ($row = $result->fetch_assoc()) {
+                        echo '
+                            <div class=" d-flex">
+                                <li class="list-group-item w-100">localhost/url-short?id='.$row['newLink'].'                             
+                                </li>    
+                                <a href= "?delete='.$row['id'].'" /><button type="button" class="btn btn-danger ">X</button></a>
+                            </div>
+                        ';
+                    }    
+                } 
+                ?>
+            </div>
+        </div>
     </div>
 </body>
 </html>
