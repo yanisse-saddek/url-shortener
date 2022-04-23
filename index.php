@@ -71,7 +71,7 @@
     <div class="app">
         <div class="container">
             <nav class="navbar">
-                    <img src="https://yanisse-saddek.fr/img/icon.png" />
+                    <img src="img/img.png" />
                     <div class="left-btn">
                         <a href="#raccourcir">Raccourcir un lien</a>
                         <a href="#historique">Historique de mes liens</a>
