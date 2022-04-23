@@ -76,13 +76,16 @@
 
 .bottom{
     min-height:100vh;
-    background-color: orange;
     display: flex;
     align-items: center;
     flex-direction: column;
-    
 }
-
+.title{
+    font-weight: bold;
+    color:white;
+    font-size: 1.5rem;
+    margin:20px;
+}
 .links-list{
     width:90%;
 }
@@ -95,16 +98,23 @@
     justify-content: space-between;
 }
 .links{
-    /* background-color: green; */
     color:white
 }
 .old-link{
     color:rgb(202, 202, 202);
 }
 .buttons{
-    background-color: antiquewhite;
+    background-color: #b697fc;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    width:200px;
+    justify-content: space-around;
+    width:150px;
+    border-radius: 30px;
+}
+
+.buttons svg{
+    height:20px;
+}
+.views{
+    display: flex;
 }
