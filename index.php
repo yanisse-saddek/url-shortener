@@ -54,6 +54,7 @@
         }
         return $randomString;
         }
+        unset($_POST);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -67,51 +68,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script> -->
 </head>
 <body>
-    <!-- <div class="container">
-        <h1>URL Shortener</h1>
-
-        <?php
-            if($errorMsg){
-                echo "
-                <div class='alert alert-danger'  role='alert'>
-                    Ce lien est incorrect ou a été supprimé
-                </div>              
-                ";
-            }
-        ?>
-        <div class="row">
-            <div class="d-flex col-9 flex-column align-middle">
-                <form method="post" action="#">
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Lien à raccourcir</label>
-                        <input name="link" type="text" class="form-control" placeholder="https://google.fr">
-                    </div>
-                    <button type="submit" class="btn btn-primary">Raccourcir</button>
-                </form>    
-                <?php
-                if(isset($_POST['link'])){
-                    echo '
-                    <div class="row mt-5">
-                        <div class="col-md-9">
-                            <input name="link" id="link" type="text" class="form-control" value=http://localhost/url-short?id='.$newLink.' readonly>
-                        </div>
-                        <div class="col">
-                            <button onClick="copy(`link`)"x type="button" class="btn btn-success">Copier</button>
-                            <a target="_blank"  href=http://localhost/url-short?id='.$newLink.'><button type="button" class="btn btn-primary">Acceder</button></a>
-                        </div>
-                    </div>    
-                    ';
-                }
-                ?>      
-            </div>
-            <div class="col-3">
-           
-            </div>
-        </div>
-    </div> -->
-
-
-
     <div class="app">
         <div class="container">
             <nav class="navbar">
@@ -191,4 +147,8 @@
     document.execCommand('copy');
     window.getSelection().removeAllRanges();
     }
+    if ( window.history.replaceState ) {
+        window.history.replaceState( null, null, window.location.href );
+    }
+
 </script>
