@@ -6,12 +6,11 @@
 
     if(isset($_GET['id'])){
         $id = $_GET['id'];
-        $sql = "SELECT * FROM links WHERE newLink = '$id'";
+        $sql = "UPDATE links SET views = 1 WHERE newLink = '$id'";
         $result = $conn->query($sql);
 
         $sql = "SELECT * FROM links WHERE newLink = '$id'";
         $result = $conn->query($sql);
-
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
                 header('Location: '.$row['longLink']);
