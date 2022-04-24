@@ -1,6 +1,10 @@
 <?php
 
     include('bd.php');
+    include('phpqrcode/qrlib.php');
+
+    
+    
     $ip =  $_SERVER['REMOTE_ADDR'];
     $errorMsg = false;
 
@@ -27,8 +31,14 @@
         $pattern= "~(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'\".,<>?«»“”‘’]))~";
         $result =  preg_match($pattern, $link);
         if($result){
+            $codeContents = $link;    
+            $fileName = '1.'.md5($codeContents).'.png';;
+            $pngAbsoluteFilePath ="qr/".$fileName;
+            $urlRelativeFilePath = $fileName;
+            echo $urlRelativeFilePath;
+            $qr = QRcode::png($codeContents, $pngAbsoluteFilePath);        
             $randId = getRandomString($n);
-            $sql = "INSERT INTO links (longLink, newLink, ip, views) VALUES ('$link', '$randId', '$ip', 0)";
+            $sql = "INSERT INTO links (longLink, newLink, ip, views, qr) VALUES ('$link', '$randId', '$ip', 0, '$qr')";
             $conn->query($sql);
     
             $newLink = "";
