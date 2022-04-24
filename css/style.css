@@ -122,4 +122,20 @@
 
 .error{
     background-color: #b697fc;
+    height:62px;
+    width:180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    /* border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px; */
+    position: absolute;
+}   
+
+.flex{
+    display: flex;
+    position: relative;
+    justify-content: flex-end;
 }

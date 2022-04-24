@@ -90,20 +90,21 @@
             <div class="top" id="raccourcir">
                 <div class="form-short">
                     <p class="title-top">Raccourcisseur d'URL</p>
-                    <?php
-                    echo $errorMsg;
-                        if($errorMsg){
-                            echo $errorMsg;
-                            echo '
-                                <div class="error">
-                                    <p>Ce lien est incorrect    </p>
-                                </div>    
-                            ';
-                        }
-                    ?>
 
                     <form action="#" method="post" class="form">
-                        <input type="text" class="link" name="link" placeholder="Entrez une URL">
+                        <div class="flex">
+                            <input type="text" class="link" name="link" placeholder="Entrez une URL">
+                            <?php
+                            echo $errorMsg;
+                                if($errorMsg){
+                                    echo '
+                                        <div class="error">
+                                            <p>Ce lien est incorrect    </p>
+                                        </div>    
+                                    ';
+                                }
+                            ?>
+                        </div>
                         <input type="submit" class="submit-link" value="Raccourcir">
                     </form>
                 </div>
