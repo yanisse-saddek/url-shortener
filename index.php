@@ -119,7 +119,7 @@
                     </form>
                 </div>
                 <div class="left-icons">
-                    <img src="https://shrt-l.ink/static/images/landing.png" />
+                    <img src="img/landing.png" />
                 </div>
             </div>
 
@@ -128,11 +128,11 @@
                 <div class="links-list">
 
                 <?php 
-                $sql = "SELECT * FROM links WHERE ip = '$ip'";
+                $sql = "SELECT * FROM links WHERE ip = '$ip' ORDER BY id DESC ";
                 $result = $conn->query($sql);
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
-                        $link = $_SERVER['SERVER_NAME'].'/url-short?id='.$row['newLink'];
+                        $link = $_SERVER['SERVER_NAME'].'?id='.$row['newLink'];
                         echo '
                         <div class="link-info">
                             <div class="links">

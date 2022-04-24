@@ -127,6 +127,13 @@
 }
 .views{
     display: flex;
+    align-items: flex-end;
+    font-weight: bold;
+}
+.views svg{
+    height:15px;
+    width:15px;
+    margin-left:4px;
 }
 
 .error{
