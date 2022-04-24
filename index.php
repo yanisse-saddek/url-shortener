@@ -35,10 +35,10 @@
             $fileName = '1.'.md5($codeContents).'.png';;
             $pngAbsoluteFilePath ="qr/".$fileName;
             $urlRelativeFilePath = $fileName;
-            echo $urlRelativeFilePath;
-            $qr = QRcode::png($codeContents, $pngAbsoluteFilePath);        
+            QRcode::png($codeContents, $pngAbsoluteFilePath);   
+
             $randId = getRandomString($n);
-            $sql = "INSERT INTO links (longLink, newLink, ip, views, qr) VALUES ('$link', '$randId', '$ip', 0, '$qr')";
+            $sql = "INSERT INTO links (longLink, newLink, ip, views, qr) VALUES ('$link', '$randId', '$ip', 0, '$pngAbsoluteFilePath')";
             $conn->query($sql);
     
             $newLink = "";
