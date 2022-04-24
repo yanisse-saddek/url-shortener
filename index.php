@@ -26,7 +26,7 @@
     }
     if(isset($_POST['link'])){
         $errorMsg = false;
-        $n = 6;
+        $n = 4;
         $link = $_POST['link'];
         $pattern= "~(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'\".,<>?«»“”‘’]))~";
         $result =  preg_match($pattern, $link);
@@ -182,12 +182,10 @@
 <script>
     function copy(text)
     {
-            console.log(text)
         navigator.clipboard.writeText(text);
     }
     function showQr(id){
-        console.log(id)
-        $(`#${id}`).toggle()
+        $(`#${id}`).fadeToggle()
     }
 
     if ( window.history.replaceState ) {
