@@ -97,6 +97,7 @@
     margin-bottom:10px;
     display: flex;
     justify-content: space-between;
+    position: relative;
 }
 .links{
     color:white
@@ -138,4 +139,13 @@
     display: flex;
     position: relative;
     justify-content: flex-end;
+}
+.qr-show{
+    position: absolute;
+    background-color: #b697fc;
+    border:5px solid #665bb6;
+    padding:1rem;
+    margin-left:30px;
+    border-radius: 30px;
+    margin-bottom:170px
 }
