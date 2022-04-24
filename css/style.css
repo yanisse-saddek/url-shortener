@@ -70,6 +70,7 @@
     background-color: #665bb6;
     color:white;
     font-weight: bold;
+    cursor: pointer;
 }
 .left-icons img{
     height:500px;
@@ -97,13 +98,20 @@
     margin-bottom:10px;
     display: flex;
     justify-content: space-between;
+    flex-direction: column;
     position: relative;
 }
 .links{
-    color:white
+    color:white;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row-reverse;
+
 }
 .old-link{
     color:rgb(202, 202, 202);
+    word-break: break-all;
+
 }
 .buttons{
     background-color: #b697fc;
