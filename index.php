@@ -24,16 +24,23 @@
         $errorMsg = false;
         $n = 6;
         $link = $_POST['link'];
-        $randId = getRandomString($n);
-        $sql = "INSERT INTO links (longLink, newLink, ip, views) VALUES ('$link', '$randId', '$ip', 0)";
-        $conn->query($sql);
-
-        $newLink = "";
-        $sql = "SELECT * from links WHERE newLink = '$randId'";
-        $result = $conn->query($sql);
-            while ($row = $result->fetch_assoc()) {
-                $newLink =$row['newLink'];
-            }    
+        $pattern= "~(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'\".,<>?«»“”‘’]))~";
+        $result =  preg_match($pattern, $link);
+        if($result){
+            $randId = getRandomString($n);
+            $sql = "INSERT INTO links (longLink, newLink, ip, views) VALUES ('$link', '$randId', '$ip', 0)";
+            $conn->query($sql);
+    
+            $newLink = "";
+            $sql = "SELECT * from links WHERE newLink = '$randId'";
+            $result = $conn->query($sql);
+                while ($row = $result->fetch_assoc()) {
+                    $newLink =$row['newLink'];
+                }  
+        }else{
+            $errorMsg = true;
+        }
+      
     }
 
     if(isset($_GET['delete'])){
@@ -68,6 +75,7 @@
     <title>URL Shortener</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="icon" type="image/x-icon" href="img/favicon.png">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 </head>
 <body>
     <div class="app">
@@ -82,6 +90,18 @@
             <div class="top" id="raccourcir">
                 <div class="form-short">
                     <p class="title-top">Raccourcisseur d'URL</p>
+                    <?php
+                    echo $errorMsg;
+                        if($errorMsg){
+                            echo $errorMsg;
+                            echo '
+                                <div class="error">
+                                    <p>Ce lien est incorrect    </p>
+                                </div>    
+                            ';
+                        }
+                    ?>
+
                     <form action="#" method="post" class="form">
                         <input type="text" class="link" name="link" placeholder="Entrez une URL">
                         <input type="submit" class="submit-link" value="Raccourcir">
@@ -101,7 +121,7 @@
                 $result = $conn->query($sql);
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
-                        $link = $_SERVER['SERVER_NAME'].'?id='.$row['newLink'];
+                        $link = $_SERVER['SERVER_NAME'].'/url-short?id='.$row['newLink'];
                         echo '
                         <div class="link-info">
                             <div class="links">
@@ -145,9 +165,7 @@
             console.log(text)
         navigator.clipboard.writeText(text);
     }
-
     if ( window.history.replaceState ) {
         window.history.replaceState( null, null, window.location.href );
     }
-
 </script>
