@@ -51,6 +51,7 @@
 }
 .form{
     display: flex;
+    box-shadow: -6px 9px 39px 5px #665bb6;
 }
 .link{
     height: 60px;

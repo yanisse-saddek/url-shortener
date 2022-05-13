@@ -2,12 +2,24 @@
 
     include('bd.php');
     include('phpqrcode/qrlib.php');
+    include('geo.php');
 
-    
-    
+
     $ip =  $_SERVER['REMOTE_ADDR'];
+    $geo = ip_info($ip, "country");    
+    
     $errorMsg = false;
 
+    if($geo == "France"){
+        function getRandomString($n) {
+            $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            $randomString = '';
+            for ($i = 0; $i < $n; $i++) {
+                $index = rand(0, strlen($characters) - 1);
+                $randomString .= $characters[$index];
+            }
+            return $randomString;
+        }
     if(isset($_GET['id'])){
         $id = $_GET['id'];
 
@@ -56,25 +68,14 @@
     if(isset($_GET['delete'])){
         delete($_GET['delete']);
     }
-
     function delete($id){
         include('bd.php');
         $sql = "DELETE from links WHERE id = '$id' ";
         $conn->query($sql);
         header('Location: index.php');
     }
-
-
-    function getRandomString($n) {
-        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        $randomString = '';
-        for ($i = 0; $i < $n; $i++) {
-            $index = rand(0, strlen($characters) - 1);
-            $randomString .= $characters[$index];
-        }
-        return $randomString;
-        }
-        unset($_POST);
+    unset($_POST);
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -138,7 +139,7 @@
                             <div class="links">
                                 <div class="buttons">
                                         <div class="qr-show"id="'.$row['id'].'" style="display:none">
-                                            <img src="'.$row['qr'].'" />
+                  pr                          <img src="'.$row['qr'].'" />
                                          </div>
                                         <div class="views">
                                             <p>'.$row['views'].'</p>
