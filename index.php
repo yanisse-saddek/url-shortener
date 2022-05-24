@@ -64,15 +64,15 @@
         }
       
     }
-
-    if(isset($_GET['delete'])){
-        delete($_GET['delete']);
-    }
     function delete($id){
         include('bd.php');
         $sql = "DELETE from links WHERE id = '$id' ";
         $conn->query($sql);
         header('Location: index.php');
+    }
+
+    if(isset($_GET['delete'])){
+        delete($_GET['delete']);
     }
     unset($_POST);
     }
@@ -190,3 +190,7 @@
         window.history.replaceState( null, null, window.location.href );
     }
 </script>
+
+
+
+
