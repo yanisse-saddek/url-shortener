@@ -95,7 +95,7 @@
                     <img src="img/img.png" />
                     <div class="left-btn">
                         <a href="#raccourcir">Raccourcir un lien</a>
-                        <a href="#historique">Historique de mes liens</a>
+                        <a href="#historique">Historique</a>
                     </div>
             </nav>
             <div class="top" id="raccourcir">
