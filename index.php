@@ -141,7 +141,7 @@
                             <div class="links">
                                 <div class="buttons">
                                         <div class="qr-show"id="'.$row['id'].'" style="display:none">
-                  pr                          <img src="'.$row['qr'].'" />
+                                          <img src="'.$row['qr'].'" />
                                          </div>
                                         <div class="views">
                                             <p>'.$row['views'].'</p>
