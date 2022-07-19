@@ -95,7 +95,7 @@
                     <img src="img/img.png" />
                     <div class="left-btn">
                         <a href="#raccourcir">Raccourcir un lien</a>
-                        <a href="#historique">Historique</a>
+                        <a href="#historique">Historique de mes liens</a>
                     </div>
             </nav>
             <div class="top" id="raccourcir">
@@ -124,14 +124,16 @@
                 </div>
             </div>
 
-            <div class="bottom" id="historique">
-                <div class="title">Historique de vos liens</div>
-                <div class="links-list">
 
                 <?php 
                 $sql = "SELECT * FROM links WHERE ip = '$ip' ORDER BY id DESC ";
                 $result = $conn->query($sql);
                 if ($result->num_rows > 0) {
+                    echo '
+                    <div class="bottom" id="historique">
+                        <div class="title">Historique de vos liens</div>
+                    <div class="links-list">
+                ';
                     while ($row = $result->fetch_assoc()) {
                         $link = $_SERVER['SERVER_NAME'].'?id='.$row['newLink'];
                         echo '
